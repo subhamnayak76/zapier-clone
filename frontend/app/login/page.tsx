@@ -3,15 +3,13 @@ import { AppBar } from "@/components/Appbar";
 import { CheckFeature } from "@/components/CheckFeature";
 import { Input } from "@/components/Input";
 import { PrimaryButton } from "@/components/buttons/PrimaryButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import { useRouter } from "next/navigation";
-
 export default function() {
     const router = useRouter()
     const [email,setEmail] = useState("")
-    const [name,setName] = useState("")
     const [password,setPassword] = useState("")
     return <div>
         <AppBar />
@@ -30,27 +28,25 @@ export default function() {
             <CheckFeature label = {"14-day trial of premium features & apps"} />
             
         </div>
-        <div className='flex-1 pt-6 pb-6 px-4 border rounded '>
-            <Input label={"Name"} onChange={e =>{setName(e.target.value)}} type="text" placeholder="Your name"/>
+        <div className='flex-1 pt-6 pb-4 px-4 border rounded '>
             <Input label={"Email"} onChange={e =>{
                 setEmail(e.target.value)
             }} type="text" placeholder="Your email"/>
-            <Input label={"Password"} onChange={e =>{
-                setPassword(e.target.value)
-            }} type="text" placeholder="Your password" />
+            <Input label={"Password"} onChange={e =>{setPassword(e.target.value)}} type="text" placeholder="Your password" />
             <div className="pt-4">
             <PrimaryButton onClick={async() =>{
                 const res = await axios.post(`${BACKEND_URL}/api/v1/user/signup`,{
                     username : email,
-                    password,
-                    name
+                    password
                 })
-                router.push('/login')
-            }}size="big">Get started free</PrimaryButton>
+                localStorage.setItem("token",res.data.token)
+                router.push('/dashboard')
+            }}size="big">Login</PrimaryButton>
             </div>
         </div>
         </div>
         </div>
     </div>
 }
+
 
