@@ -27,7 +27,7 @@ model Zap {
   userId Int
   triggerId String
   trigger Trigger?
-  action Action[]
+  actions Action[]
   zapRun ZapRun[]
   user User @relation(fields: [userId], references: [id])
 } 

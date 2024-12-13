@@ -23,7 +23,7 @@ router.post('/',authMiddleware,async (req,res) =>{
             data : {
                 userId : parseInt(id),
                 triggerId : "",
-                action : {
+                actions : {
                     create: parsedData.data.actions.map((x,index) =>({
                         actionId : x.availableActionsId,
                         sortingOrder : index
@@ -57,13 +57,18 @@ router.get('/',authMiddleware,async(req,res) =>{
     //@ts-ignore
     const id = req.id
     const zapId = req.params.zapId
-    const zap = await prismaClient.zap.findMany({
+    const zaps = await prismaClient.zap.findMany({
         where : {
             id : zapId,
             userId : id
         },
         include : {
-            action : {
+            actions : {
+                include : {
+                    type : true
+                }
+            },
+            trigger : {
                 include : {
                     type : true
                 }
@@ -71,7 +76,7 @@ router.get('/',authMiddleware,async(req,res) =>{
         }
     })
     res.json({
-        zap
+        zaps
     })
     
 })
