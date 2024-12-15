@@ -18,4 +18,5 @@ export const ZapCreateSchema = z.object({
         availableActionsId : z.string(),
         actionMetadata : z.any().optional()
     }))
+       
 }) 

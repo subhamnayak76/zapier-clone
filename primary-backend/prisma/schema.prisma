@@ -44,6 +44,7 @@ model Action {
 model AvailabelActions {
   id String @id @default(uuid())
   name String
+  image String
   actions Action[]
 }
 model Trigger {
@@ -58,6 +59,7 @@ model Trigger {
 model AvailableTriggers {
   id String @id @default(uuid())
   name String
+  image String
   triggers Trigger[]
 }
 
